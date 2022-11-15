@@ -1,0 +1,12 @@
+{
+  "resourceName": "TEST123",
+  "policyUUID": "92b1402d",
+  "bucketName": "test123",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

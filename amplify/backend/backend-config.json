@@ -44,5 +44,12 @@
         }
       }
     }
+  },
+  "storage": {
+    "TEST123": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }
