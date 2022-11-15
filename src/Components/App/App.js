@@ -3,13 +3,16 @@ import './App.css';
 import Amplify from 'aws-amplify';
 
 import { withAuthenticator, AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react-v1';
-import logo from './Logo.jpg';
-import { listNotes } from './graphql/queries';
-import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
+import logo from './../../Logo.jpg';
+import { listNotes } from './../../graphql/queries';
+import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './../../graphql/mutations';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
-import awsconfig from './aws-exports';
+import awsconfig from './../../aws-exports';
 import { API, Storage } from 'aws-amplify';
-
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { Button, Paper } from '@material-ui/core';
 
 Amplify.configure(awsconfig);
 
@@ -107,27 +110,26 @@ async function createNote() {
 	  type="file"
 	  onChange={onChange}
 		/>
-      <button onClick={createNote}>Create Note</button>
+      <Button variant="contained" color="primary" onClick={createNote}>Create Note</Button>
       <div style={{marginBottom: 30}}>
         {
            notes.map(note => (
 			<div key={note.id || note.name}>
 			  <h2>{note.name}</h2>
 			  <p>{note.description}</p>
-			  			  <p>{note.image}</p>
-
-			  <button onClick={() => deleteNote(note)}>Delete note</button>
 			  {
 				  				
 
 				note.image && <img src={note.image} style={{width: 400}} />
 			  }
+			  			  <Button variant="contained" color="secondary" onClick={() => deleteNote(note)}>Delete note</Button>
+
 			</div>
 		  ))
         }
       </div>
 	  
-	  
+
     </div>
   ) : 
   
