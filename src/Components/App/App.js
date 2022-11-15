@@ -110,7 +110,7 @@ async function createNote() {
 	  type="file"
 	  onChange={onChange}
 		/>
-      <Button variant="contained" color="primary" onClick={createNote}>Create Note</Button>
+      <Button variant="contained" color="primary" onClick={createNote}>Create Note PLS</Button>
       <div style={{marginBottom: 30}}>
         {
            notes.map(note => (
