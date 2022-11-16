@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { Button, Paper } from '@material-ui/core';
+import MenuBar from '../MenuBar/MenuBar';
 
 Amplify.configure(awsconfig);
 
@@ -78,8 +79,10 @@ async function createNote() {
 
   return authState === AuthState.SignedIn && user ? (
     <div className="App">
+		        <MenuBar />
+
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+
         <h1>Hello Marie Thérèse</h1>
 
 
