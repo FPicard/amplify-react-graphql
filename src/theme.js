@@ -9,7 +9,7 @@ const theme = createMuiTheme({
       main: red.A400,
     },
     background: {
-      default: '#FFFF11',
+      default: '#FFFFFF',
     },
   },
   overrides: {

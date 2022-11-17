@@ -13,7 +13,13 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { Button, Paper } from '@material-ui/core';
-import MenuBar from '../MenuBar/MenuBar';
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "../NavBar/NavBar";
+import Home from "../../Pages/Home";
+import About from "../../Pages/About";
+import Contact from "../../Pages/Contact";
+
 
 Amplify.configure(awsconfig);
 
@@ -79,7 +85,19 @@ async function createNote() {
 
   return authState === AuthState.SignedIn && user ? (
     <div className="App">
-		        <MenuBar />
+
+
+
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Router>
+
+
 
       <header className="App-header">
 
