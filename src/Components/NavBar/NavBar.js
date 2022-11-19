@@ -113,7 +113,7 @@ const Navbar = () => {
 
 		  		         <div className="Title2"> 
 		         <div className="input"> 
-            <InputBase placeholder="Looking for a gros service que je n'aime pas vraiment mais " />
+            <InputBase placeholder="Rechercher un service" />
 			 
 
 				 </div>

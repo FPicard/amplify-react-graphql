@@ -14,14 +14,8 @@ import Navbar from "../NavBar/NavBar";
 import Home from "../../Pages/Home";
 import About from "../../Pages/About";
 import Contact from "../../Pages/Contact";
-import imagedd from '../../Images/Interieur.png';
-import imageee from '../../Images/Gardienne.png';
-
-
 Amplify.configure(awsconfig);
 const initialFormState = { name: '', description: '' }
-
-
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -96,36 +90,62 @@ async function deleteNote({ id }) {
 
 
       <header className="App-header">
-	  <div> 
-      <img class="fit-picture" src={imagedd} />
-	  </div> 
 
-	  <div>
-      <img class="fit-picture2" src={imageee} />
-	  </div> 
-
-	  <div>
-      <img class="fit-picture2" src={imagedd} />
-	  </div> 
-
-	  <div>
-      <img class="fit-picture2" src={imageee} />
+        <h1>Hello Marie Thérèse</h1>
 
 
-	 <AmplifySignOut />
-	  </div> 
+
+
+
+	<div>Utilisateur logguer {user.username}</div>
+      <AmplifySignOut />
+	  
 	  
 
 
 	  
 	  </header>
 	  
+	   <h1>Test Database</h1>
+      <input
+        onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+        placeholder="Note name"
+        value={formData.name}
+      />
+      <input
+        onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+        placeholder="Note description"
+        value={formData.description}
+      />
+	  <input
+	  type="file"
+	  onChange={onChange}
+		/>
+      <Button variant="contained" color="primary" onClick={createNote}>Create Notes</Button>
+      <div style={{marginBottom: 30}}>
+        {
+           notes.map(note => (
+			<div key={note.id || note.name}>
+			  <h2>{note.name}</h2>
+			  <p>{note.description}</p>
+			  {
+				  				
+
+				note.image && <img src={note.image} style={{width: 400}} alt={note.image} />
+			  }
+			  			  <Button variant="contained" color="secondary" onClick={() => deleteNote(note)}>Delete note</Button>
+
+			</div>
+		  ))
+        }
+      </div>
 	  
+
     </div>
   ) : 
   
   (
-    <header className="App-header">
+        <header className="App-header">
 
     <AmplifyAuthenticator>
   <AmplifySignIn
