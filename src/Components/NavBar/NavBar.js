@@ -1,67 +1,21 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AdbIcon from "@material-ui/icons/Adb";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import { styled } from "@material-ui/core/";
-import { theme } from "./Theme";
 import { Box } from "@material-ui/core/";
 import { Link } from "react-router-dom";
-
-const Search = styled("div")(({ theme }) => ({
-  backgroundColor: "#f3f5fb",
-  padding: "0 2px",
-  borderRadius: theme.shape.borderRadius,
-  width: "100%",
-  position: "relative",
-  "&:hover": {
-    backgroundColor: theme.palette.common.blue,
-  },
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing.unit * 3,
-    width: "auto",
-  },
-}));
-
-const styles = {
-  root: {
-    width: "100%",
-    marginBottom: "10px",
-  },
-  title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
-  },
-  tabContainer: {
-    marginLeft: "auto",
-  },
-  destopContainer: {
-
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
-    },
-  },
-  mobileContainer: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  },
-};
+import "./NavBar.css";
+import { IoSearchCircleSharp } from "react-icons/io5";
+import { GiWorld } from "react-icons/gi";
+import "./NavBar.css";
 
 const pages = [
   { name: "Become a service provider", url: "/" },
@@ -135,56 +89,90 @@ const Navbar = () => {
       </Menu>
     );
   };
-const styles = {
-  // this group of buttons will be aligned to the right side
-  toolbarButtons: {
-    marginLeft: 'auto',
-  },
-};
+
   return (
 
 
-    <Box sx={styles.root}>
-      <AppBar position="static"  color="#f3f5fb">
-		<Toolbar style={{display:'flex', justifyContent:"space-between", width:'100%'}}>
-		          <AdbIcon  sx={{display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-				FPICARD
-					
+    <Box>
+      <AppBar color="#000000">
+		<Toolbar>
 
-          <Search>
-            <InputBase placeholder="Looking for a services" />
-          </Search>
+		
+		
+			<IconButton 
+			  aria-owns={isMenuOpen ? "material-appbar" : undefined}
+			  aria-haspopup="true"
+			>
+			<div className="LogoHomePage">
+				<span role="img" aria-label="logo">
+				<AdbIcon />
+				</span>
+				{" "}Wogee
+			</div>
+		    </IconButton>
 
-          <Box sx={styles.destopContainer}>
+		  		         <div className="Title2"> 
+		         <div className="input"> 
+            <InputBase placeholder="Looking for a gros service que je n'aime pas vraiment mais " />
+			 
+
+				 </div>
+			        <IconButton
+					  aria-owns={isMenuOpen ? "material-appbar" : undefined}
+					  aria-haspopup="true"
+					  color="inherit"
+
+					>
+
+
+
+<IoSearchCircleSharp className="Logo3"/>
+
+				</IconButton>
+				 </div>
+
+<div className="Logo2">
+ <IconButton
+					  aria-owns={isMenuOpen ? "material-appbar" : undefined}
+					  aria-haspopup="true"
+					  color="inherit"
+
+					>
+      
 		  
             {pages.map((page, index) => (
               <Link
                 key={index}
                 to={page.url}
-                style={{
-                  padding: "6px 4px",
-                  color: "black",
-                  textDecoration: "none",
-				  
-                }}
               >
                 {page.name}
               </Link>
             ))}
+				</IconButton>
 
+			        <IconButton
+					  aria-owns={isMenuOpen ? "material-appbar" : undefined}
+					  aria-haspopup="true"
+					  color="inherit"
+					>
 
+				  <GiWorld className="Logo5" />
+				</IconButton>
+
+				
             <IconButton
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
+			  
 			  style={{
 					right: 0,
              
 				  
                 }}
             >
-                     <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
+                     <Badge badgeContent={17} color="secondary" >
+                <NotificationsIcon className="Logo5"/>
               </Badge>
             </IconButton>
 		  
@@ -197,13 +185,13 @@ const styles = {
 					  aria-haspopup="true"
 					  onClick={handleProfileMenuOpen}
 					  color="inherit"
-
 					>
 
-				  <AccountCircle />
+				  <AccountCircle className="Logo5"/>
 				</IconButton>
-          </Box>
-          
+				
+          </div>
+ 
         </Toolbar>
       </AppBar>
       {renderMenu()}

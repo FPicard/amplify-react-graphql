@@ -3,29 +3,19 @@ import './App.css';
 import Amplify from 'aws-amplify';
 
 import { withAuthenticator, AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react-v1';
-import logo from './../../Logo.jpg';
 import { listNotes } from './../../graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './../../graphql/mutations';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import awsconfig from './../../aws-exports';
 import { API, Storage } from 'aws-amplify';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { Button, Paper } from '@material-ui/core';
-
+import { Button } from '@material-ui/core';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "../NavBar/NavBar";
 import Home from "../../Pages/Home";
 import About from "../../Pages/About";
 import Contact from "../../Pages/Contact";
-
-
 Amplify.configure(awsconfig);
-
 const initialFormState = { name: '', description: '' }
-
-
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -76,12 +66,12 @@ async function createNote() {
   setFormData(initialFormState);
 }
 
-  async function deleteNote({ id }) {
-	  alert(id);
-    const newNotesArray = notes.filter(note => note.id !== id);
-    setNotes(newNotesArray);
-    await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
-  }
+async function deleteNote({ id }) {
+	alert(id);
+	const newNotesArray = notes.filter(note => note.id !== id);
+	setNotes(newNotesArray);
+	await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
+}
 
   return authState === AuthState.SignedIn && user ? (
     <div className="App">
@@ -141,7 +131,7 @@ async function createNote() {
 			  {
 				  				
 
-				note.image && <img src={note.image} style={{width: 400}} />
+				note.image && <img src={note.image} style={{width: 400}} alt={note.image} />
 			  }
 			  			  <Button variant="contained" color="secondary" onClick={() => deleteNote(note)}>Delete note</Button>
 

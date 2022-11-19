@@ -1,0 +1,51 @@
+.LogoHomePage {
+  color: #B41B7F; 
+}
+
+
+.Logo3 {
+
+
+  font-size:2em;
+    text-align: center;
+}
+.Logo5 {
+  font-size:1.5em;
+  fontSize:"large";
+}
+
+
+.Title2 {
+  flex-grow: 1;
+}
+
+.input {
+	
+    text-align: center;
+min-width: 500px;
+	font-size: 1.5em;
+	background: linear-gradient(21deg, #F3FCFF, #E6E2E2);
+
+	padding: 3px;
+	
+	display: inline-block;
+	
+	border-radius: 9999em;
+
+	
+}
+.container {
+    width: 300px;
+    height: 300px;
+    border: 1px black solid;
+}
+
+.centered-element{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: grey;
+    padding: 15px;
+    width: 120px;
+}
+
+
