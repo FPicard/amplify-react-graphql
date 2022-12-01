@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -16,17 +17,48 @@ import "./NavBar.css";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import { GiWorld } from "react-icons/gi";
 import "./NavBar.css";
+import { Amplify, Auth, Hub } from 'aws-amplify';
 
 const pages = [
   { name: "Become a service provider", url: "/" },
 ];
 
 const Navbar = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signIn':
+        case 'cognitoHostedUI':
+          getUser().then(userData => setUser(userData));
+          break;
+        case 'signOut':
+          setUser(null);
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+          console.log('Sign in failure', data);
+          break;
+      }
+    });
+
+    getUser().then(userData => setUser(userData));
+  }, []);
+
+  function getUser() {
+    return Auth.currentAuthenticatedUser()
+      .then(userData => userData)
+      .catch(() => console.log('Not signed in'));
+  }
+  
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+ 
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -56,7 +88,10 @@ const Navbar = () => {
       >
         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-		<MenuItem onClick={handleMenuClose}>Sign out</MenuItem>
+		<MenuItem onClick={() => Auth.signOut()}>Sign out</MenuItem>
+		
+
+
       </Menu>
     );
   };
@@ -72,7 +107,12 @@ const Navbar = () => {
       >
         <MenuItem>
           <IconButton color="inherit">
+		  
+		  
+		
             <Badge badgeContent={6} color="secondary">
+	
+		  
               <MailIcon />
             </Badge>
           </IconButton>
@@ -80,7 +120,11 @@ const Navbar = () => {
         </MenuItem>
         <MenuItem>
           <IconButton color="inherit">
+
             <Badge badgeContent={11} color="secondary">
+
+
+
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -159,6 +203,8 @@ const Navbar = () => {
 				  <GiWorld className="Logo5" />
 				</IconButton>
 
+						  {user ? (
+		 
 				
             <IconButton
               aria-haspopup="true"
@@ -175,26 +221,46 @@ const Navbar = () => {
                 <NotificationsIcon className="Logo5"/>
               </Badge>
             </IconButton>
+		   ) : (
+true
+		  )}
 		  
 		  
-		  
-
-
-			        <IconButton
+						  {user ? (
+		 
+							        <IconButton
 					  aria-owns={isMenuOpen ? "material-appbar" : undefined}
 					  aria-haspopup="true"
 					  onClick={handleProfileMenuOpen}
 					  color="inherit"
 					>
-
+					
 				  <AccountCircle className="Logo5"/>
 				</IconButton>
+
+		   ) : (
+			        <IconButton
+					  aria-owns={isMenuOpen ? "material-appbar" : undefined}
+					  aria-haspopup="true"
+					  onClick={() => Auth.federatedSignIn()}
+					  color="inherit"
+					>
+					
+				  Se Connecter
+				</IconButton>
+		  )}
+
+
 				
           </div>
  
         </Toolbar>
       </AppBar>
-      {renderMenu()}
+      {user ? (
+			  renderMenu()
+      ) : (
+	  true
+      )}
       {renderMobileMenu()}
     </Box>
   );

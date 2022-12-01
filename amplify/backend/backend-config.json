@@ -1,13 +1,17 @@
 {
   "auth": {
-    "amplifyreactgraphql7a6878a6": {
+    "amplifyreactgraphqle4d645ca": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "frontendAuthConfig": {
-        "socialProviders": [],
-        "usernameAttributes": [],
+        "socialProviders": [
+          "FACEBOOK"
+        ],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
         "signupAttributes": [
           "EMAIL"
         ],

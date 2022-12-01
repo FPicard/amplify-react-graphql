@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import awsConfig from './../../aws-exports';
 import './App.css';
-import Amplify from 'aws-amplify';
-
+import React from 'react';
 import { withAuthenticator, AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react-v1';
 import { listNotes } from './../../graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './../../graphql/mutations';
@@ -16,71 +17,61 @@ import About from "../../Pages/About";
 import Contact from "../../Pages/Contact";
 import imagedd from '../../Images/Interieur.png';
 import imageee from '../../Images/Gardienne.png';
+const isLocalhost = Boolean(
+  window.location.hostname === 'localhost' ||
+    // [::1] is the IPv6 localhost address.
+    window.location.hostname === '[::1]' ||
+    // 127.0.0.1/8 is considered localhost for IPv4.
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
+);
 
+// Assuming you have two redirect URIs, and the first is for localhost and second is for production
+const [
+  localRedirectSignIn,
+  productionRedirectSignIn,
+] = awsConfig.oauth.redirectSignIn.split(',');
 
-Amplify.configure(awsconfig);
-const initialFormState = { name: '', description: '' }
+const [
+  localRedirectSignOut,
+  productionRedirectSignOut,
+] = awsConfig.oauth.redirectSignOut.split(',');
 
+const updatedAwsConfig = {
+  ...awsConfig,
+  oauth: {
+    ...awsConfig.oauth,
+    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+  }
+}
 
+Amplify.configure(updatedAwsConfig);
 
 function App() {
-  const [notes, setNotes] = useState([]);
-  const [formData, setFormData] = useState(initialFormState);
-  const [user, setUser] = React.useState();
+const [user, setUser] = React.useState();
   const [authState, setAuthState] = React.useState();
 
-  React.useEffect(() => {
-    return onAuthUIStateChange((nextAuthState, authData) => {
+  useEffect(() => {
+
+    getUser().then(userData => setUser(userData));
+	   return onAuthUIStateChange((nextAuthState, authData) => {
       setAuthState(nextAuthState);
       setUser(authData);
     });
   }, []);
-  
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-  
-  async function fetchNotes() {
-  const apiData = await API.graphql({ query: listNotes });
-  const notesFromAPI = apiData.data.listNotes.items;
-  await Promise.all(notesFromAPI.map(async note => {
-    if (note.image) {
-      const image = await Storage.get(note.image);
-      note.image = image;
-    }
-    return note;
-  }))
-  setNotes(apiData.data.listNotes.items);
-}
 
-async function onChange(e) {
-  if (!e.target.files[0]) return
-  const file = e.target.files[0];
-  setFormData({ ...formData, image: file.name });
-  await Storage.put(file.name, file);
-  fetchNotes();
-}
+  function getUser() {
+    return Auth.currentAuthenticatedUser()
+      .then(userData => userData)
+      .catch(() => console.log('Not signed in'));
+  } 
 
-async function createNote() {
-  if (!formData.name || !formData.description) return;
-  await API.graphql({ query: createNoteMutation, variables: { input: formData } });
-  if (formData.image) {
-    const image = await Storage.get(formData.image);
-    formData.image = image;
-  }
-  setNotes([ ...notes, formData ]);
-  setFormData(initialFormState);
-}
+  return (
+	    <div className="App">
 
-async function deleteNote({ id }) {
-	alert(id);
-	const newNotesArray = notes.filter(note => note.id !== id);
-	setNotes(newNotesArray);
-	await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
-}
-
-  return authState === AuthState.SignedIn && user ? (
-    <div className="App">
+	
 
 
 
@@ -97,9 +88,23 @@ async function deleteNote({ id }) {
 
       <header className="App-header">
 	  <div> 
-      <img class="fit-picture" src={imagedd} />
+      <img class="fit-picture2" src={imagedd} />
+	  </div> 
+	  
+	  
+	  	  {user ? (
+
+	  <div>
+      TEST Utilisateur logguer {Auth.user.attributes.email}
+
 	  </div> 
 
+
+		  ) : (
+		  <div> </div>
+		  )}
+	  
+	  
 	  <div>
       <img class="fit-picture2" src={imageee} />
 	  </div> 
@@ -111,8 +116,6 @@ async function deleteNote({ id }) {
 	  <div>
       <img class="fit-picture2" src={imageee} />
 
-
-	 <AmplifySignOut />
 	  </div> 
 	  
 
@@ -122,29 +125,7 @@ async function deleteNote({ id }) {
 	  
 	  
     </div>
-  ) : 
-  
-  (
-    <header className="App-header">
-
-    <AmplifyAuthenticator>
-  <AmplifySignIn
-    headerText="Essai Connection Francois v1_17"
-    slot="sign-in"
-	formFields={[
-		  { type: 'username' },
-          {
-            type: 'password',
-            label: 'Test Encyptage Password',
-            placeholder: 'password',
-            inputProps: { required: true, autocomplete: 'password' },
-          },
-        ]}
-  ></AmplifySignIn>
-</AmplifyAuthenticator>
-	  </header>
-
   );
 }
 
-export default withAuthenticator(App);
+export default App;

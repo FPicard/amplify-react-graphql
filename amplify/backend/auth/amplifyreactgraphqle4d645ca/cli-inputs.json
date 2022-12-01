@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "amplifyreactgraphql7a6878a6_identitypool_7a6878a6",
+    "identityPoolName": "amplifyreactgraphqle4d645ca_identitypool_e4d645ca",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "amplif7a6878a6",
-    "userPoolName": "amplifyreactgraphql7a6878a6_userpool_7a6878a6",
+    "resourceNameTruncated": "amplife4d645ca",
+    "userPoolName": "amplifyreactgraphqle4d645ca_userpool_e4d645ca",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,15 +31,25 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "amplif7a6878a6_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "amplife4d645ca_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "7a6878a6",
-    "resourceName": "amplifyreactgraphql7a6878a6",
+    "sharedId": "e4d645ca",
+    "resourceName": "amplifyreactgraphqle4d645ca",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "default",
+    "useDefault": "defaultSocial",
+    "hostedUI": true,
+    "usernameAttributes": [
+      "email"
+    ],
+    "hostedUIDomainName": "amplifyreactgraphqle4d645ca-e4d645ca",
+    "authProvidersUserPool": [
+      "Facebook"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true
   }
-}  
+} 
